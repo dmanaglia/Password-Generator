@@ -74,7 +74,7 @@ After I completed the code to generate a random password I decided to add a cool
 ![Feature Screenshot](./assets/images/featureScreenshot.png)
 
 
-Adding the feature was good practice with DOM manipulation. It required some extra research, but it was all fairly simple and intuitive. I created a new div element to specifically change when I wanted to add new information about the newly generated password and when I wanted to delete the previously displaying information from the last generated password. 
+The feaure was great practice working with DOM manipulation. It required some extra research, but it was all fairly simple and intuitive. I created a new div element to specifically change when I wanted to add new information about the newly generated password and when I wanted to delete the previously displaying information from the last generated password. 
 
 I ended up changing some of the properties of my usrPassword Object to make it easier to loop through and access the specific information I wanted to display on the webpage. I also added simple if statements checking the values I was displaying in order to change the text color to green or red depending on whether the value to be displayed is true or false.
 
