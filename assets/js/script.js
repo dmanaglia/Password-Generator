@@ -1,15 +1,16 @@
 var lowerSet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 var upperSet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 var numSet = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-var specialSet = ["`", "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "[", "]", "{", "}", "|", ":", ";", "'", ",", "<", ">", ".", "/", "?"];
-
+var specialSet = ["@", "%", "+", "\\", "/", "'", "!", "#", "$", "^", "?", ":", ",", ")", "(", "}", "{", "]", "[", "~", "-", "_", "."];
 
 var usrPassword = {
   length : null,
-  customCharSet: [],
+  customCharSet : [],
+  password : "",
 
   generateCriteria: function () {
     var validLength = false;
+    this.length = null;
     while(!validLength) {
       var charCount = prompt("How many characters would you like your password to have?");
         if(charCount === null) {
@@ -53,35 +54,48 @@ var usrPassword = {
   },
 
   generatePassword: function() {
-    // this should never happen since the validation in usrPassword.generateCriteria already checks for null
-    // only way this could occur is if the code is changed and the code generates the password before the criteria
+    //if the user presses cancel when prompted how long they want their new password to be. exits the method before a new password is generated
     if(this.length === null) {
       alert("Password criteria has not been generated");
-      // this.generateCriteria();
+      //returns last generated password if the user initially presses cancel in case they decide they want to view it more
+      //will return an empty string if they havent already generated a password
+      return this.password;
     }
-    var newPassword = "";
+
+    this.password = "";
+    var usedLowerCase = false;
+    var usedUpperCase = false;
+    var usedNumber = false;
+    var usedSpecial = false;
     for(var i = 0; i < this.length; i++) {
-      newPassword = newPassword + getRandomChar(this.customCharSet);
+      var charSetSelector = this.customCharSet[Math.floor(Math.random() * this.customCharSet.length)];
+      if(charSetSelector === "lowerCase"){
+        this.password = this.password + lowerSet[Math.floor(Math.random() * lowerSet.length)];
+        usedLowerCase = true;
+      } else if(charSetSelector === "upperCase"){
+        this.password = this.password + upperSet[Math.floor(Math.random() * upperSet.length)];
+        usedUpperCase = true;
+      } else if(charSetSelector === "numbers"){
+        this.password = this.password + numSet[Math.floor(Math.random() * numSet.length)];
+        usedNumber = true;
+      } else {
+        this.password = this.password + specialSet[Math.floor(Math.random() * specialSet.length)];
+        usedSpecial = true;
+      }
     }
-    return newPassword;
+    console.log("Different chars used: " + (usedLowerCase + usedUpperCase + usedNumber + usedSpecial));
+    console.log("Different chars needed: " + (this.customCharSet.length));
+
+    if(usedLowerCase + usedUpperCase + usedNumber + usedSpecial < this.customCharSet.length) {
+      console.log("Faulty Password: " + this.password);
+      this.generatePassword();
+      return this.password;
+    } else {
+      console.log("Returning Password....     " + this.password);
+      return this.password;
+    }
   }
 }
-
-
-function getRandomChar(customArray) {
-  var charSetSelector = customArray[Math.floor(Math.random() * customArray.length)];
-  if(charSetSelector === "lowerCase"){
-    return lowerSet[Math.floor(Math.random() * lowerSet.length)];
-  } else if(charSetSelector === "upperCase"){
-    return upperSet[Math.floor(Math.random() * upperSet.length)];
-  } else if(charSetSelector === "numbers"){
-    return numSet[Math.floor(Math.random() * numSet.length)];
-  } else {
-    return specialSet[Math.floor(Math.random() * specialSet.length)];
-  }
-}
-
-
 
 var generateBtn = document.querySelector("#generate");
 
@@ -92,7 +106,6 @@ function writePassword() {
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
-
 }
 
 // Add event listener to generate button
