@@ -46,8 +46,8 @@ var usrPassword = {
     var validCharSet = false;
     while(!validCharSet) {  
       //setting each boolean variable within the customCharSet object to what the user specifies
-      this.customCharSet.hasLowerCase = confirm("Do you want your passowrd to contain lower case letters?");
-      this.customCharSet.hasUpperCase = confirm("Do you want your passowrd to contain upper case letters?");
+      this.customCharSet.hasLowerCase = confirm("Do you want your password to contain lower case letters?");
+      this.customCharSet.hasUpperCase = confirm("Do you want your password to contain upper case letters?");
       this.customCharSet.hasNums = confirm("Do you want your password to contain numbers?");
       this.customCharSet.hasSpecial = confirm("Do you want your password to contain special characters?");
       //checks to ensure the user has chosen at least one kind of character
